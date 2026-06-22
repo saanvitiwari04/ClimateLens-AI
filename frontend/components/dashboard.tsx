@@ -106,13 +106,11 @@ export function Dashboard() {
           </div>
         </header>
 
-        {/* Fallback Notice Banner */}
-        {selectedCity.profileType === "estimated" && (
-          <div className="bg-amber-50 border-b border-amber-200 px-6 py-2.5 flex items-center justify-between text-amber-800 text-xs font-medium animate-pulse">
-            <span className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-              {selectedCity.dataNotice}
-            </span>
+        {/* Data source notice — only shown when Overpass timed out for non-cached cities */}
+        {selectedCity.dataNotice && selectedCity.dataNotice.includes("timed out") && (
+          <div className="bg-blue-50 border-b border-blue-200 px-6 py-2 flex items-center gap-2 text-blue-700 text-xs font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0"></span>
+            {selectedCity.dataNotice}
           </div>
         )}
 

@@ -12,7 +12,7 @@ export interface ClimateMetric {
   status: "strong" | "watch" | "risk" | "unavailable";
   source?: string;
   lastUpdated?: string;
-  confidence?: "High" | "Medium" | "Low" | "Estimated";
+  confidence?: "High" | "Medium" | "Low" | "Estimated" | "Data Derived";
   metricType?: "Real" | "Derived" | "Estimated" | "Unavailable";
 }
 
@@ -40,7 +40,7 @@ export interface Hotspot {
   suggestedAction: string;
   signals?: HotspotSignals;
   recommendations?: LocalRecommendation[];
-  confidenceScore?: "High" | "Medium" | "Low" | "Estimated";
+  confidenceScore?: "High" | "Medium" | "Low" | "Estimated" | "Data Derived";
   hotspotType?: "Real" | "Derived" | "Estimated";
 }
 

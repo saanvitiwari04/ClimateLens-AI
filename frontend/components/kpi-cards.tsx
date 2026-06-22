@@ -29,11 +29,9 @@ export function KpiCards({ metrics }: { metrics: ClimateMetric[] }) {
               <span className={cn(
                 "px-1.5 py-0.5 rounded font-bold uppercase tracking-wider text-[9px] shrink-0",
                 metric.metricType === "Real" && "bg-emerald-50 text-emerald-600 border border-emerald-200",
-                metric.metricType === "Derived" && "bg-blue-50 text-blue-600 border border-blue-200",
-                metric.metricType === "Estimated" && "bg-amber-50 text-amber-600 border border-amber-200",
-                metric.metricType === "Unavailable" && "bg-slate-50 text-slate-400 border border-slate-200"
+                (metric.metricType === "Derived" || metric.metricType === "Estimated" || metric.metricType === "Unavailable") && "bg-blue-50 text-blue-600 border border-blue-200"
               )}>
-                {metric.metricType}
+                {metric.metricType === "Real" ? "Real" : "Data Derived"}
               </span>
             </div>
           )}

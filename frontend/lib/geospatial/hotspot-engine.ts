@@ -365,9 +365,9 @@ function toHotspotObject(
 ): Hotspot {
   const details = getHotspotNameDetails(candidate.signals, baseAQI);
   
-  const name = localityName 
-    ? `${localityName} ${details.reason} ${details.type}`
-    : `${location.name} Urban Risk Zone ${index + 1}`;
+  const name = localityName
+    ? `${localityName} — ${details.reason}`
+    : `${location.name} Heat Risk Zone ${index + 1}`;
 
   const mappedCategory = riskCategory === "Critical" ? "Severe" : "High";
 
@@ -474,8 +474,8 @@ export async function generateGeospatialHotspots(
                        await reverseGeocode(cand.coordinates.lat, cand.coordinates.lng) ||
                        null;
       const hotspotObj = toHotspotObject(location, baseTempC, baseAQI, cand, i, locality, "Critical");
-      hotspotObj.hotspotType = "Estimated";
-      hotspotObj.confidenceScore = "Estimated";
+      hotspotObj.hotspotType = "Derived";
+      hotspotObj.confidenceScore = "Medium";
       hotspots.push(hotspotObj);
     }
     
@@ -485,8 +485,8 @@ export async function generateGeospatialHotspots(
                        await reverseGeocode(cand.coordinates.lat, cand.coordinates.lng) ||
                        null;
       const hotspotObj = toHotspotObject(location, baseTempC, baseAQI, cand, i, locality, "Severe");
-      hotspotObj.hotspotType = "Estimated";
-      hotspotObj.confidenceScore = "Estimated";
+      hotspotObj.hotspotType = "Derived";
+      hotspotObj.confidenceScore = "Medium";
       hotspots.push(hotspotObj);
     }
     

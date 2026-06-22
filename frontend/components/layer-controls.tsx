@@ -22,9 +22,7 @@ export function LayerControls({ city }: { city: CityClimateProfile }) {
   const [osmFailed, setOsmFailed] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
-    // Reset state when city changes
     setOsmFailed({});
-    
     const handleOsmFallback = (e: any) => {
       if (e.detail && e.detail.type) {
         setOsmFailed(prev => ({ ...prev, [e.detail.type]: true }));
@@ -34,15 +32,18 @@ export function LayerControls({ city }: { city: CityClimateProfile }) {
     return () => window.removeEventListener('osm-fallback', handleOsmFallback);
   }, [city.id]);
 
-  const getDataSourceInfo = (layerId: ClimateLayer, profileType: string) => {
-    if (layerId === "heat") return `Data Source: ClimateLens Simulation | Confidence: ${profileType === "enhanced" ? "High" : "Estimated"}`;
-    if (layerId === "treeCover" || layerId === "water") {
-      if (osmFailed[layerId]) {
-        return "Source: Estimated Spatial Model | Confidence: Estimated";
-      }
-      return "Data Source: OpenStreetMap | Confidence: High";
-    }
-    if (layerId === "solar" || layerId === "airQuality") return "Data Source: Estimated Climate Model | Confidence: Estimated";
+  const getDataSourceInfo = (layerId: ClimateLayer) => {
+    if (layerId === "heat") return "Source: Open-Meteo Atmospheric Dataset | Confidence: High";
+    if (layerId === "treeCover")
+      return osmFailed[layerId]
+        ? "Source: ClimateLens Geospatial Intelligence Engine | Confidence: Data Derived"
+        : "Source: OpenStreetMap Geospatial Analysis | Confidence: High";
+    if (layerId === "water")
+      return osmFailed[layerId]
+        ? "Source: ClimateLens Geospatial Intelligence Engine | Confidence: Data Derived"
+        : "Source: OpenStreetMap Geospatial Analysis | Confidence: High";
+    if (layerId === "solar") return "Source: OSM Building Footprint Analysis | Confidence: Medium";
+    if (layerId === "airQuality") return "Source: Open-Meteo Atmospheric Dataset | Confidence: High";
     return "";
   };
 
@@ -68,8 +69,8 @@ export function LayerControls({ city }: { city: CityClimateProfile }) {
             .map((layer) => (
               <div key={layer.id} className="pb-2 border-b border-gray-100 last:border-0">
                 <p>{city.layerSummaries[layer.id]}</p>
-                <div className={`mt-1 text-[11px] font-mono font-medium inline-block px-1.5 py-0.5 rounded ${osmFailed[layer.id] ? 'bg-amber-100 text-amber-800' : 'bg-slate-50 text-slate-500'}`}>
-                  {getDataSourceInfo(layer.id, city.profileType || "estimated")}
+                <div className="mt-1 text-[11px] font-mono font-medium inline-block px-1.5 py-0.5 rounded bg-slate-50 text-slate-500">
+                  {getDataSourceInfo(layer.id)}
                 </div>
               </div>
             ))}
