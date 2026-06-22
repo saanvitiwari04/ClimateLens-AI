@@ -1,0 +1,34 @@
+@import "leaflet/dist/leaflet.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #202426;
+  background: #f7f6f1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #f7f6f1;
+  color: #202426;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  font-family: inherit;
+}
+
+.leaflet-control-attribution {
+  font-size: 10px;
+}
